@@ -1,0 +1,4 @@
+﻿deploy/
+*.zip
+_*.js
+_backup/

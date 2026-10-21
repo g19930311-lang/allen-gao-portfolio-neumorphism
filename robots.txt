@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://g19930311-lang.github.io/allen-gao-portfolio-neumorphism/sitemap.xml
