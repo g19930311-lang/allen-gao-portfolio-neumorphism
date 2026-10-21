@@ -1645,7 +1645,7 @@
                     </div>
                     <div class="a-field">
                         <label>仓库（默认已填好）</label>
-                        <input type="text" id="ghRepo" value="g19930311-lang/allen-gao-portfolio">
+                        <input type="text" id="ghRepo" value="g19930311-lang/allen-gao-portfolio-neumorphism">
                     </div>
                     <div style="display:flex;gap:0.7rem;flex-wrap:wrap">
                         <button class="a-btn primary" id="publishBtn">⬆️ 一键发布</button>
@@ -4333,7 +4333,7 @@
             }
             localStorage.setItem(GH_TOKEN_KEY, token);
             document.getElementById('ghToken').value = '';
-            const repo = document.getElementById('ghRepo').value.trim() || 'g19930311-lang/allen-gao-portfolio';
+            const repo = document.getElementById('ghRepo').value.trim() || 'g19930311-lang/allen-gao-portfolio-neumorphism';
             publishBtn.disabled = true;
             publishStatus.textContent = '发布中…';
 
