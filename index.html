@@ -2285,7 +2285,7 @@
 
         /* ================= 默认数据 v4 ================= */
         const DEFAULT_DATA = {
-            "version": 5,
+            "version": 6,
             "hero": {
                 "line1": "让品牌被看见",
                 "phrases": [
@@ -2767,13 +2767,30 @@
         catch (e) { DATA = deepMerge(DEFAULT_DATA, {}); }
 
         const LOCAL_KEY = 'gj_site_local';
-        const DATA_VERSION = DEFAULT_DATA.version;
+        /* 版本判定：取内置默认数据与 site-data.js 的较大值（避免发布文件版本滞后） */
+        const DATA_VERSION = Math.max(
+            DEFAULT_DATA.version || 0,
+            (window.SITE_DATA && window.SITE_DATA.version) || 0
+        );
         try {
             const raw = localStorage.getItem(LOCAL_KEY);
             if (raw) {
                 const local = JSON.parse(raw);
                 if ((local.version || 0) >= DATA_VERSION) {
                     DATA = deepMerge(DATA, local);
+                    /* 兜底：本地笔记缺 content 时，用内置数据补齐，避免文章无正文 */
+                    if (Array.isArray(DATA.notes) && Array.isArray(DEFAULT_DATA.notes)) {
+                        DATA.notes.forEach(function (n) {
+                            if (!n.content) {
+                                for (let bi = 0; bi < DEFAULT_DATA.notes.length; bi++) {
+                                    if (DEFAULT_DATA.notes[bi].id === n.id && DEFAULT_DATA.notes[bi].content) {
+                                        n.content = DEFAULT_DATA.notes[bi].content;
+                                        break;
+                                    }
+                                }
+                            }
+                        });
+                    }
                 } else {
                     /* 低版本本机数据缺少新版真实素材与案例结构：先备份再忽略，避免覆盖 */
                     try { localStorage.setItem(LOCAL_KEY + '_backup_v' + (local.version || 0), raw); } catch (e2) { /* ignore */ }

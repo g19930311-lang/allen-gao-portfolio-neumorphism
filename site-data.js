@@ -1,6 +1,6 @@
 // 由个人超级展示窗口管理后台导出 · 上传到 GitHub 仓库根目录即可全站生效
 window.SITE_DATA = {
-  "version": 5,
+  "version": 6,
   "hero": {
     "line1": "让品牌被看见",
     "phrases": [
