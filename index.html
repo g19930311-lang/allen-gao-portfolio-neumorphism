@@ -251,7 +251,7 @@
         .proof-text { font-size: 0.85rem; color: var(--ink-2); }
         .proof-text strong { color: var(--ink); }
         /* Hero 右侧视觉卡 */
-        .hero-visual { position: relative; display: flex; flex-direction: column; gap: 1.1rem; }
+        .hero-visual { position: relative; }
         /* 首屏形象照：1:1 方形（与「关于我」共用同一张方图） */
         .hero-photo {
             display: block; width: 100%; aspect-ratio: 1/1;
@@ -261,10 +261,10 @@
         }
         /* 数据卡：与照片上下分开排列的独立模块（不再叠加遮挡） */
         .hero-float {
-            width: 100%; padding: 1.15rem 1.25rem;
+            width: 100%; padding: 1.65rem 1.75rem;
             background: var(--card);
-            border: 1px solid var(--border); border-radius: var(--r-lg);
-            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border); border-radius: var(--r-xl);
+            box-shadow: var(--shadow);
         }
         .hero-float-head {
             display: flex; align-items: baseline; justify-content: space-between;
@@ -272,11 +272,11 @@
         }
         .hero-float-head .hl { font-size: 0.82rem; font-weight: 700; color: var(--ink); }
         .hero-float-head .hs { font-size: 0.64rem; letter-spacing: 0.09em; color: var(--ink-3); text-transform: uppercase; }
-        .hero-float .stat-row { grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-bottom: 0.75rem; }
-        .hero-float .stat-tile { padding: 0.75rem 0.85rem; border-radius: var(--r-sm); }
-        .hero-float .stat-tile .n { font-size: 1.28rem; }
-        .hero-float .stat-tile .l { font-size: 0.72rem; line-height: 1.45; }
-        .hero-float .mini-chart { height: 44px; padding: 8px; border-radius: var(--r-sm); }
+        .hero-float .stat-row { grid-template-columns: 1fr 1fr; gap: 0.95rem; margin-bottom: 1.15rem; }
+        .hero-float .stat-tile { padding: 1.15rem 1.25rem; border-radius: var(--r-md); }
+        .hero-float .stat-tile .n { font-size: 1.8rem; }
+        .hero-float .stat-tile .l { font-size: 0.82rem; line-height: 1.45; }
+        .hero-float .mini-chart { height: 66px; padding: 12px; border-radius: var(--r-md); }
         #avatarFrame { padding: 0.7rem; border-radius: var(--r-xl); max-width: 400px; }
         #avatarFrame img {
             width: 100%; aspect-ratio: 1/1; object-fit: cover;
@@ -460,8 +460,6 @@
         /* 二维码严格 1:1 */
         .social-qr { width: 168px; height: auto; aspect-ratio: 1/1; }
         /* 首屏数据卡高度收紧，与左侧文字列取得平衡 */
-        .hero-float .stat-tile { padding: 0.72rem 0.82rem; }
-        .hero-float .mini-chart { height: 34px; padding: 7px; }
 
         /* 深色对比区块 */
         .dark-band { background: var(--dark); color: #f1f5f9; }
@@ -847,13 +845,13 @@
             /* 首屏：照片限宽居中，数据卡紧凑 */
             .hero-photo { max-width: 300px; margin: 0 auto; }
             .hero-visual { gap: 0.9rem; }
-            .hero-float { padding: 0.95rem 1rem; }
-            .hero-float-head { margin-bottom: 0.6rem; }
-            .hero-float .stat-row { gap: 0.45rem; margin-bottom: 0.55rem; }
-            .hero-float .stat-tile { padding: 0.6rem 0.65rem; }
-            .hero-float .stat-tile .n { font-size: 1.02rem; }
-            .hero-float .stat-tile .l { font-size: 0.64rem; line-height: 1.4; }
-            .hero-float .mini-chart { display: none; }
+            .hero-float { padding: 1.25rem 1.3rem; }
+            .hero-float-head { margin-bottom: 0.75rem; }
+            .hero-float .stat-row { gap: 0.65rem; margin-bottom: 0.85rem; }
+            .hero-float .stat-tile { padding: 0.9rem 0.95rem; }
+            .hero-float .stat-tile .n { font-size: 1.4rem; }
+            .hero-float .stat-tile .l { font-size: 0.72rem; line-height: 1.4; }
+            .hero-float .mini-chart { height: 54px; }
             /* 卡片内边距收紧 */
             .work-body { padding: 1.15rem 1.2rem 1.25rem; }
             .life-info { padding: 1.05rem 1.2rem 1.2rem; }
@@ -892,8 +890,8 @@
             .hero-title { font-size: 1.8rem; }
             .sec-title { font-size: 1.55rem; }
             .hero-photo { max-width: 260px; }
-            .hero-float .stat-tile .n { font-size: 0.95rem; }
-            .hero-float .stat-tile .l { font-size: 0.6rem; }
+            .hero-float .stat-tile .n { font-size: 1.25rem; }
+            .hero-float .stat-tile .l { font-size: 0.7rem; }
             .brands-strip .b { font-size: 0.84rem; }
             .section { padding: 3.6rem 0; }
         }
@@ -1157,7 +1155,6 @@
                 </div>
             </div>
             <div class="hero-visual">
-                <img class="hero-photo" id="heroPhoto" src="assets/avatar.jpg" alt="高洁 Allen Gao" onerror="this.style.display='none'">
                 <div class="hero-float">
                     <div class="hero-float-head">
                         <span class="hl" data-i18n="hero_card_t">影响力看板</span>
