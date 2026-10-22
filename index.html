@@ -1290,6 +1290,164 @@
     .article-bar-inner { padding: 0 5.5%; }
     .article-bar-meta .article-date { display: none; }
 }
+/* ============ IP 宠物「小橙」互动层 ============ */
+.ip-pet {
+    position: fixed;
+    right: 22px;
+    bottom: 92px;
+    width: 92px;
+    height: 92px;
+    z-index: 570;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: opacity 0.35s ease, transform 0.35s ease;
+}
+.ip-pet.hidden { opacity: 0; transform: scale(0.6); pointer-events: none; }
+
+/* 容器浮动 */
+.pet-body {
+    width: 100%; height: 100%;
+    animation: petFloat 3.2s ease-in-out infinite;
+    transform-origin: 50% 90%;
+}
+@keyframes petFloat {
+    0%, 100% { transform: translateY(0) rotate(-1deg); }
+    50% { transform: translateY(-9px) rotate(1.5deg); }
+}
+/* 悬停/点击：开心跳一下 */
+.ip-pet.happy .pet-body { animation: petBounce 0.7s cubic-bezier(0.34, 1.56, 0.64, 1); }
+@keyframes petBounce {
+    0% { transform: translateY(0) scale(1, 1); }
+    28% { transform: translateY(-16px) scale(1.06, 0.94); }
+    55% { transform: translateY(0) scale(0.95, 1.05); }
+    75% { transform: translateY(-5px) scale(1.02, 0.98); }
+    100% { transform: translateY(0) scale(1, 1); }
+}
+/* 睡觉：呼吸变慢 */
+.ip-pet.sleeping .pet-body { animation: petSleep 4.4s ease-in-out infinite; }
+@keyframes petSleep {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-3px) scale(1.025, 0.975); }
+}
+
+.pet-svg { width: 100%; height: 100%; display: block; overflow: visible; }
+
+/* 眨眼（作用于眼睛组） */
+.pet-eyes { animation: petBlink 4.6s ease-in-out infinite; transform-origin: 60px 52px; }
+@keyframes petBlink {
+    0%, 90%, 100% { transform: scaleY(1); }
+    93% { transform: scaleY(0.08); }
+    96% { transform: scaleY(1); }
+}
+/* 睡觉时眼睛闭合 */
+.ip-pet.sleeping .pet-eyes { animation: none; transform: scaleY(0.1); }
+/* 瞳孔跟随鼠标（JS 设置 translate） */
+.pet-pupil { transition: transform 0.12s ease-out; transform-box: fill-box; transform-origin: center; }
+
+/* 影子 */
+.pet-shadow {
+    position: absolute; left: 50%; bottom: -6px; transform: translateX(-50%);
+    width: 62px; height: 10px; border-radius: 50%;
+    background: rgba(15, 23, 42, 0.16);
+    filter: blur(4px);
+    animation: petShadow 3.2s ease-in-out infinite;
+}
+@keyframes petShadow {
+    0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.5; }
+    50% { transform: translateX(-50%) scale(0.86); opacity: 0.32; }
+}
+
+/* 对话气泡 */
+.pet-bubble {
+    position: absolute;
+    right: 104%;
+    bottom: 52%;
+    margin-right: 8px;
+    padding: 0.55rem 0.85rem;
+    background: var(--card);
+    color: var(--ink);
+    font-size: 0.79rem;
+    line-height: 1.5;
+    white-space: nowrap;
+    border-radius: 14px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border);
+    opacity: 0;
+    transform: translateX(8px) scale(0.94);
+    transition: opacity 0.28s ease, transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+    pointer-events: none;
+    max-width: 240px;
+}
+.pet-bubble.show { opacity: 1; transform: translateX(0) scale(1); }
+.pet-bubble::after {
+    content: ''; position: absolute; right: -6px; bottom: 12px;
+    width: 10px; height: 10px; background: var(--card);
+    border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    transform: rotate(-45deg);
+}
+
+/* 睡觉的 Zzz */
+.pet-zzz {
+    position: absolute; top: -2px; right: 6px;
+    font-size: 0.9rem; font-weight: 800; color: var(--brand);
+    opacity: 0; transition: opacity 0.3s ease;
+}
+.ip-pet.sleeping .pet-zzz { opacity: 1; animation: zzzFloat 2.2s ease-in-out infinite; }
+@keyframes zzzFloat {
+    0% { transform: translate(0, 0) scale(0.8); opacity: 0.2; }
+    50% { transform: translate(4px, -8px) scale(1); opacity: 0.9; }
+    100% { transform: translate(8px, -16px) scale(1.1); opacity: 0; }
+}
+
+/* 关闭按钮 */
+.pet-close {
+    position: absolute; top: -4px; right: -4px;
+    width: 22px; height: 22px; border-radius: 50%;
+    border: 1px solid var(--border-2);
+    background: var(--card); color: var(--ink-3);
+    font-size: 0.72rem; line-height: 1; cursor: pointer;
+    font-family: inherit; padding: 0;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transform: scale(0.8);
+    transition: all 0.25s ease; z-index: 2;
+}
+.ip-pet:hover .pet-close { opacity: 1; transform: scale(1); }
+.pet-close:hover { color: var(--danger); border-color: var(--danger); }
+
+/* 页脚召唤按钮 */
+.pet-summon {
+    display: none;
+    margin-top: 0.9rem;
+    padding: 0.4rem 1rem; border-radius: 40px;
+    background: transparent; border: 1px solid var(--border-2);
+    color: var(--ink-2); font-size: 0.78rem; cursor: pointer;
+    font-family: inherit; transition: all 0.25s ease;
+}
+.pet-summon.show { display: inline-block; }
+.pet-summon:hover { border-color: var(--brand); color: var(--brand); }
+
+/* 手机端 */
+@media (max-width: 768px) {
+    .ip-pet { width: 68px; height: 68px; right: 12px; bottom: 88px; }
+    .pet-bubble {
+        right: 0; bottom: 100%; margin: 0 0 8px 0;
+        white-space: normal; max-width: 60vw; font-size: 0.76rem;
+    }
+    .pet-bubble::after {
+        right: auto; left: 16px; bottom: -6px;
+        border: none; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    }
+    .pet-close { opacity: 1; transform: scale(1); width: 20px; height: 20px; }
+    .pet-shadow { width: 46px; height: 8px; }
+}
+@media (max-width: 420px) {
+    .ip-pet { width: 60px; height: 60px; right: 10px; bottom: 84px; }
+    .pet-bubble { max-width: 66vw; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .pet-body, .pet-shadow, .pet-eyes { animation: none !important; }
+}
     </style>
 </head>
 <body>
@@ -1561,6 +1719,7 @@
                 <a href="#" id="adminEntry" data-i18n="admin">管理后台</a>
             </div>
             <p>© <span id="year"></span> <span data-i18n="footer_line">高洁 Allen Gao · 新媒体运营与品牌策划 · 用内容创造价值</span></p>
+            <button class="pet-summon" id="petSummon" type="button">🐾 召唤小橙</button>
             <div id="busuanzi" style="display:none">
                 <span data-i18n="footer_visits">本站访问</span> <span id="busuanzi_value_site_pv">0</span> ·
                 <span data-i18n="footer_visitors">访客</span> <span id="busuanzi_value_site_uv">0</span>
@@ -1593,6 +1752,75 @@
     </div>
 
     <div class="toast-area" id="toastArea"></div>
+    <!-- IP 宠物「小橙」 -->
+    <div class="ip-pet" id="ipPet" role="button" tabindex="0" aria-label="互动小助手小橙">
+        <div class="pet-bubble" id="petBubble"></div>
+        <div class="pet-zzz">z Z</div>
+        <button class="pet-close" id="petClose" type="button" aria-label="隐藏小橙" title="隐藏小橙">✕</button>
+        <div class="pet-body">
+            <svg class="pet-svg" viewBox="0 0 120 120" aria-hidden="true">
+                <defs>
+                    <radialGradient id="petFur" cx="34%" cy="28%" r="78%">
+                        <stop offset="0%" stop-color="#ffc48a"/>
+                        <stop offset="45%" stop-color="#fb923c"/>
+                        <stop offset="100%" stop-color="#e8590c"/>
+                    </radialGradient>
+                    <radialGradient id="petBelly" cx="50%" cy="45%" r="60%">
+                        <stop offset="0%" stop-color="#ffe0bd" stop-opacity="0.85"/>
+                        <stop offset="100%" stop-color="#ffe0bd" stop-opacity="0"/>
+                    </radialGradient>
+                </defs>
+                <!-- 毛绒外圈（两层小圆错位叠加，形成毛球轮廓） -->
+                <g fill="#f97316">
+                    <circle cx="98" cy="60" r="9"/><circle cx="92.9" cy="79" r="9"/>
+                    <circle cx="79" cy="92.9" r="9"/><circle cx="60" cy="98" r="9"/>
+                    <circle cx="41" cy="92.9" r="9"/><circle cx="27.1" cy="79" r="9"/>
+                    <circle cx="22" cy="60" r="9"/><circle cx="27.1" cy="41" r="9"/>
+                    <circle cx="41" cy="27.1" r="9"/><circle cx="60" cy="22" r="9"/>
+                    <circle cx="79" cy="27.1" r="9"/><circle cx="92.9" cy="41" r="9"/>
+                </g>
+                <g fill="#fb923c">
+                    <circle cx="92.8" cy="68.8" r="7"/><circle cx="84" cy="84" r="7"/>
+                    <circle cx="68.8" cy="92.8" r="7"/><circle cx="51.2" cy="92.8" r="7"/>
+                    <circle cx="36" cy="84" r="7"/><circle cx="27.2" cy="68.8" r="7"/>
+                    <circle cx="27.2" cy="51.2" r="7"/><circle cx="36" cy="36" r="7"/>
+                    <circle cx="51.2" cy="27.2" r="7"/><circle cx="68.8" cy="27.2" r="7"/>
+                    <circle cx="84" cy="36" r="7"/><circle cx="92.8" cy="51.2" r="7"/>
+                </g>
+                <!-- 身体 -->
+                <circle cx="60" cy="60" r="40" fill="url(#petFur)"/>
+                <ellipse cx="60" cy="82" rx="22" ry="16" fill="url(#petBelly)"/>
+                <!-- 腮红 -->
+                <ellipse cx="32" cy="70" rx="7.5" ry="4.5" fill="#ff7b6b" opacity="0.45"/>
+                <ellipse cx="88" cy="70" rx="7.5" ry="4.5" fill="#ff7b6b" opacity="0.45"/>
+                <!-- 眼睛 -->
+                <g class="pet-eyes">
+                    <ellipse cx="45" cy="52" rx="11" ry="12.5" fill="#ffffff"/>
+                    <ellipse cx="75" cy="52" rx="11" ry="12.5" fill="#ffffff"/>
+                    <circle class="pet-pupil" cx="45" cy="53" r="5.6" fill="#1f2937"/>
+                    <circle class="pet-pupil" cx="75" cy="53" r="5.6" fill="#1f2937"/>
+                    <circle cx="42.6" cy="49.6" r="2.1" fill="#ffffff"/>
+                    <circle cx="72.6" cy="49.6" r="2.1" fill="#ffffff"/>
+                </g>
+                <!-- 眼镜 -->
+                <g fill="none" stroke="#1f2937" stroke-width="2.6" stroke-linecap="round">
+                    <circle cx="45" cy="52" r="13.6"/>
+                    <circle cx="75" cy="52" r="13.6"/>
+                    <path d="M58.6 51 Q60 48.4 61.4 51"/>
+                    <path d="M31.4 49 L24 46.5"/>
+                    <path d="M88.6 49 L96 46.5"/>
+                </g>
+                <!-- 嘴与手脚 -->
+                <path d="M53 72.5 Q60 78.5 67 72.5" fill="none" stroke="#8a3b12" stroke-width="2.4" stroke-linecap="round"/>
+                <circle cx="40" cy="93" r="7" fill="#f97316"/>
+                <circle cx="80" cy="93" r="7" fill="#f97316"/>
+                <circle cx="24" cy="70" r="6" fill="#fb923c"/>
+                <circle cx="96" cy="70" r="6" fill="#fb923c"/>
+            </svg>
+        </div>
+        <div class="pet-shadow"></div>
+    </div>
+
 
     <!-- 笔记文章阅读视图 -->
     <div class="article-overlay" id="articleOverlay">
@@ -4964,6 +5192,141 @@
             document.addEventListener('keydown', function (e) {
                 if (e.key === 'Escape' && overlay.classList.contains('open')) closeArticle();
             });
+        })();
+
+
+        /* ================= IP 宠物「小橙」互动 ================= */
+        (function initPet() {
+            const pet = document.getElementById('ipPet');
+            if (!pet) return;
+            const bubble = document.getElementById('petBubble');
+            const closeBtn = document.getElementById('petClose');
+            const summon = document.getElementById('petSummon');
+            const HIDE_KEY = 'gj_pet_hidden';
+
+            const lines = [
+                '嗨，我是小橙 🍊',
+                '想看看我的作品集吗？下拉试试～',
+                '我的公众号：高洁丨lens',
+                '视频号：高洁丨Video',
+                '9 年新媒体实战，随时聊～',
+                '有问题直接在「联系我」留言哦',
+                '点右上角可以切换深浅色 👀',
+                '下滑看看我的方法论「生态化流量池」',
+                '需要合作？拉到最下面 💬'
+            ];
+            const deepLines = [
+                '到这儿就是我的合作方式啦',
+                '需要帮忙？留言给我就行 💬',
+                '扫码关注一下也不错～',
+                '随时欢迎聊聊品牌和内容'
+            ];
+            let bubbleTimer = null, sleepTimer = null, lastScrollChat = 0, li = 0;
+
+            function speak(text, ms) {
+                bubble.textContent = text;
+                bubble.classList.add('show');
+                clearTimeout(bubbleTimer);
+                bubbleTimer = setTimeout(function () { bubble.classList.remove('show'); }, ms || 3400);
+            }
+            function resetSleep() {
+                pet.classList.remove('sleeping');
+                clearTimeout(sleepTimer);
+                sleepTimer = setTimeout(function () {
+                    if (!pet.classList.contains('hidden')) pet.classList.add('sleeping');
+                }, 22000);
+            }
+            function cheer() {
+                pet.classList.add('happy');
+                setTimeout(function () { pet.classList.remove('happy'); }, 720);
+            }
+
+            /* 眼睛跟随指针（rAF 节流） */
+            let rafPending = false, lastX = 0, lastY = 0;
+            function lookAt(cx, cy) {
+                const r = pet.getBoundingClientRect();
+                const mx = r.left + r.width / 2, my = r.top + r.height / 2;
+                const dx = cx - mx, dy = cy - my;
+                const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+                const k = Math.min(3.2, dist / 26);
+                const tx = (dx / dist) * k, ty = (dy / dist) * k;
+                const pupils = pet.querySelectorAll('.pet-pupil');
+                for (let i = 0; i < pupils.length; i++) {
+                    pupils[i].style.transform = 'translate(' + tx.toFixed(2) + 'px,' + ty.toFixed(2) + 'px)';
+                }
+            }
+            function scheduleLook(cx, cy) {
+                lastX = cx; lastY = cy;
+                if (rafPending) return;
+                rafPending = true;
+                requestAnimationFrame(function () { rafPending = false; lookAt(lastX, lastY); });
+            }
+            document.addEventListener('mousemove', function (e) { scheduleLook(e.clientX, e.clientY); }, { passive: true });
+            document.addEventListener('touchmove', function (e) {
+                if (e.touches && e.touches[0]) scheduleLook(e.touches[0].clientX, e.touches[0].clientY);
+            }, { passive: true });
+
+            /* 点击：开心 + 说一句 */
+            pet.addEventListener('click', function (e) {
+                if (e.target === closeBtn) return;
+                resetSleep();
+                cheer();
+                li = (li + 1) % lines.length;
+                speak(lines[li]);
+            });
+            pet.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pet.click(); }
+            });
+            /* 悬停：打招呼 */
+            pet.addEventListener('mouseenter', function () {
+                resetSleep();
+                cheer();
+            });
+
+            /* 任意操作唤醒 */
+            ['mousemove', 'scroll', 'touchstart', 'keydown'].forEach(function (ev) {
+                window.addEventListener(ev, function () {
+                    if (pet.classList.contains('sleeping')) resetSleep();
+                }, { passive: true });
+            });
+
+            /* 滚到页面底部时打个招呼（限频） */
+            window.addEventListener('scroll', function () {
+                const now = Date.now();
+                if (now - lastScrollChat < 9000) return;
+                const total = document.documentElement.scrollHeight - window.innerHeight;
+                if (total > 0 && window.scrollY / total > 0.92) {
+                    lastScrollChat = now;
+                    speak(deepLines[Math.floor(Math.random() * deepLines.length)]);
+                }
+            }, { passive: true });
+
+            /* 显示 / 隐藏 */
+            let hidden = false;
+            try { hidden = localStorage.getItem(HIDE_KEY) === '1'; } catch (e) { /* ignore */ }
+            function setHidden(v) {
+                hidden = v;
+                pet.classList.toggle('hidden', !!v);
+                if (summon) summon.classList.toggle('show', !!v);
+                try { localStorage.setItem(HIDE_KEY, v ? '1' : '0'); } catch (e) { /* ignore */ }
+            }
+            if (hidden) setHidden(true);
+            closeBtn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                setHidden(true);
+                toast('小橙先休息啦，可以在页脚召唤它', 'info');
+            });
+            if (summon) {
+                summon.addEventListener('click', function () {
+                    setHidden(false);
+                    resetSleep();
+                    speak('我又回来啦！');
+                });
+            }
+
+            /* 初次见面 */
+            setTimeout(function () { if (!hidden) speak('嗨，我是小橙 🍊 点我试试～', 4200); }, 2600);
+            resetSleep();
         })();
 
         /* ================= 启动 ================= */
