@@ -54,9 +54,9 @@
             --danger: #ef4444;
             --warn: #f59e0b;
             /* 双向阴影：右下暗 + 左上亮 → 浮雕感 */
-            --sh-out: 7px 7px 16px rgba(163, 177, 198, 0.55), -7px -7px 16px rgba(255, 255, 255, 0.95);
-            --sh-out-sm: 4px 4px 10px rgba(163, 177, 198, 0.5), -4px -4px 10px rgba(255, 255, 255, 0.9);
-            --sh-out-lg: 10px 10px 22px rgba(163, 177, 198, 0.6), -10px -10px 22px rgba(255, 255, 255, 0.95);
+            --sh-out: 6px 6px 14px rgba(163, 177, 198, 0.48), -6px -6px 14px rgba(255, 255, 255, 0.92);
+            --sh-out-sm: 4px 4px 9px rgba(163, 177, 198, 0.42), -4px -4px 9px rgba(255, 255, 255, 0.86);
+            --sh-out-lg: 9px 9px 20px rgba(163, 177, 198, 0.52), -9px -9px 20px rgba(255, 255, 255, 0.94);
             --sh-in: inset 5px 5px 11px rgba(163, 177, 198, 0.55), inset -5px -5px 11px rgba(255, 255, 255, 0.95);
             --shadow: var(--sh-out);
             --shadow-sm: var(--sh-out-sm);
@@ -1033,6 +1033,70 @@
 
         /* 12) 作品详情 / 灯箱遮罩保持深色，卡片新拟态 */
         .detail-media { background: var(--bg); }
+
+        /* ===== 新拟态细节精修 ===== */
+
+        /* 13) 表单错误态：内凹 + 危险色光环
+              （修复：新拟态去掉边框后，原来的 border-color 错误提示完全不可见） */
+        .form-row input.invalid, .form-row textarea.invalid {
+            box-shadow: var(--sh-in), 0 0 0 2px var(--danger);
+        }
+
+        /* 14) 图片：柔光晕染阴影，与同色背景更好地融合 */
+        .hero-photo, .work-media, .life-cover {
+            box-shadow: var(--sh-out-sm), 0 18px 40px rgba(163, 177, 198, 0.26);
+        }
+        body.dark .hero-photo, body.dark .work-media, body.dark .life-cover {
+            box-shadow: var(--sh-out-sm), 0 18px 40px rgba(0, 0, 0, 0.34);
+        }
+
+        /* 15) 触摸/按下反馈：整卡内凹（手机与触屏的主要反馈方式） */
+        .work-card:active, .life-card:active, .service-card:active, .testi-card:active,
+        .method-card:active, .social-card:active, .contact-card:active, .note-card:active {
+            box-shadow: var(--sh-in) !important;
+            transform: none;
+        }
+        .timeline-content:active { box-shadow: var(--sh-in); }
+
+        /* 16) 后台面板配色与前台统一（仅面板底色，内部控件保持深色可用性） */
+        .admin-panel { background: #2b3038; }
+
+        /* 17) 手机端：新拟态在窄屏容易「糊」，需降档阴影 + 拉开间距 + 收敛圆角 */
+        @media (max-width: 768px) {
+            :root {
+                --sh-out: 5px 5px 12px rgba(163, 177, 198, 0.46), -5px -5px 12px rgba(255, 255, 255, 0.9);
+                --sh-out-sm: 3px 3px 8px rgba(163, 177, 198, 0.4), -3px -3px 8px rgba(255, 255, 255, 0.84);
+                --sh-out-lg: 7px 7px 15px rgba(163, 177, 198, 0.5), -7px -7px 15px rgba(255, 255, 255, 0.92);
+                --sh-in: inset 4px 4px 9px rgba(163, 177, 198, 0.46), inset -4px -4px 9px rgba(255, 255, 255, 0.9);
+                --r-xl: 22px;
+                --r-lg: 18px;
+            }
+            body.dark {
+                --sh-out: 5px 5px 12px rgba(0, 0, 0, 0.48), -5px -5px 12px rgba(255, 255, 255, 0.04);
+                --sh-out-sm: 3px 3px 8px rgba(0, 0, 0, 0.42), -3px -3px 8px rgba(255, 255, 255, 0.035);
+                --sh-out-lg: 7px 7px 15px rgba(0, 0, 0, 0.5), -7px -7px 15px rgba(255, 255, 255, 0.045);
+                --sh-in: inset 4px 4px 9px rgba(0, 0, 0, 0.48), inset -4px -4px 9px rgba(255, 255, 255, 0.045);
+            }
+            /* 同色卡片间距加大，避免阴影连成一片 */
+            .works-grid, .life-grid, .testi-grid, .service-grid { gap: 1.6rem; }
+            .method-grid { gap: 1.5rem; }
+            /* 卡片内边距略增，让浮雕更舒展 */
+            .work-body { padding: 1.25rem 1.3rem 1.35rem; }
+            .life-info { padding: 1.15rem 1.3rem 1.3rem; }
+            /* 首屏照片再收一档，方形更克制 */
+            .hero-photo { max-width: 280px; }
+            /* 手机端按钮按下的内凹更明显 */
+            .btn-ghost:active, .pill-btn:active, .filter-btn:active, .copy-btn:active { box-shadow: var(--sh-in); }
+        }
+        @media (max-width: 420px) {
+            :root {
+                --sh-out: 4px 4px 10px rgba(163, 177, 198, 0.44), -4px -4px 10px rgba(255, 255, 255, 0.88);
+                --sh-out-sm: 3px 3px 7px rgba(163, 177, 198, 0.38), -3px -3px 7px rgba(255, 255, 255, 0.82);
+                --sh-in: inset 3px 3px 8px rgba(163, 177, 198, 0.44), inset -3px -3px 8px rgba(255, 255, 255, 0.88);
+            }
+            .hero-photo { max-width: 250px; }
+        }
+
     </style>
 </head>
 <body>
