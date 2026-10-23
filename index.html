@@ -1557,7 +1557,7 @@ body.dark .work-card::after, body.dark .service-card::after, body.dark .life-car
     --card: #ebe9f6;
     --ink: #241c4a;
     --ink-2: #4f4a75;
-    --ink-3: #8581a8;
+    --ink-3: #6b6790;
     --brand: #6d28d9;
     --brand-2: #4f46e5;
     --brand-3: #06b6d4;
@@ -1587,7 +1587,7 @@ body.dark {
     --card: #1c1733;
     --ink: #eae6ff;
     --ink-2: #b0a9d6;
-    --ink-3: #7d77a3;
+    --ink-3: #9b95c4;
     --brand: #a78bfa;
     --brand-2: #818cf8;
     --brand-3: #22d3ee;
@@ -1654,6 +1654,31 @@ body.dark {
         @media (max-width: 768px) {
             .article-cover { border-radius: var(--r-md); margin-bottom: 1.5rem; }
         }
+
+
+        /* ===== 稳定性修复层 =====
+           ① 渐变文字兜底：浏览器不支持 background-clip:text 时改用纯色，避免文字消失
+           ② 消除 CSS hover 与 JS 3D 倾斜的 transform 冲突（抖动来源）
+           ③ 清理过度的 will-change（卡顿来源） */
+        @supports not ((-webkit-background-clip: text) or (background-clip: text)) {
+            .sec-label, .stat-tile .n, .art-data-item .n, .detail-metric .n,
+            .highlight-card .num, #highlightGrid > div > div:first-child,
+            #typedText, .hero-title .grad, .typed-line {
+                background: none !important;
+                -webkit-text-fill-color: currentColor !important;
+                color: var(--brand) !important;
+            }
+            .art-data-item .n, #typedText, .hero-title .grad { color: var(--brand-2) !important; }
+        }
+        /* hover 上浮统一交给 JS 3D 倾斜，避免与 CSS transform 冲突产生跳变 */
+        .work-card:hover, .life-card:hover, .service-card:hover, .testi-card:hover,
+        .method-card:hover, .social-card:hover, .contact-card:hover, .note-card:hover,
+        .hero-float:hover, .timeline-content:hover { transform: none; }
+        /* 去掉全局 will-change，浏览器会自行优化 */
+        .works-grid > *, .life-grid > *, .service-grid > *, .testi-grid > *,
+        .method-grid > *, .notes-grid > *, .highlight-grid > * { will-change: auto; }
+        /* 图片加载失败兜底：隐藏破图图标 */
+        .work-media img, .note-cover img, .life-cover img, .article-cover img { background: var(--bg-soft); }
 
     </style>
 </head>
@@ -3362,7 +3387,7 @@ body.dark {
                 d.style.cssText = 'background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.1rem 1.3rem';
                 d.setAttribute('data-level', s.level);
                 d.innerHTML =
-                    (n.cover ? '<div class="note-cover"><img loading="lazy" src="' + n.cover + '" alt="' + escapeHtml(n.title) + '"></div>' : '') +
+                    (n.cover ? '<div class="note-cover"><img loading="lazy" src="' + n.cover + '" alt="' + escapeHtml(n.title) + '" onerror="this.style.visibility=&#39;hidden&#39;"></div>' : '') +
                     '<div style="display:flex;justify-content:space-between;align-items:baseline;gap:1rem">' +
                         '<strong style="font-size:0.98rem">' + escapeHtml(s.label) + '</strong>' +
                         '<span style="font-size:0.78rem;color:var(--brand);font-weight:700">' + (+s.level) + '%</span>' +
@@ -3429,7 +3454,7 @@ body.dark {
                 if (img && assetKind(w.image) === 'video') {
                     mediaHtml = '<video src="' + img + '" muted preload="metadata"></video>';
                 } else if (img) {
-                    mediaHtml = '<img loading="lazy" src="' + img + '" alt="' + escapeHtml(w.title) + '">';
+                    mediaHtml = '<img loading="lazy" src="' + img + '" alt="' + escapeHtml(w.title) + '" onerror="this.style.visibility=&#39;hidden&#39;">';
                 } else {
                     mediaHtml = '<span>' + escapeHtml(CAT_MAP[w.category] || '') + ' ' + T('ws_ph') + '</span>';
                 }
@@ -5653,7 +5678,7 @@ body.dark {
                     for (let i = 0; i < kids.length; i++) {
                         const k = kids[i];
                         if (k.classList && k.classList.contains('fade-in') && !k.classList.contains('visible')) {
-                            k.style.transitionDelay = Math.min(i * 70, 420) + 'ms';
+                            k.style.transitionDelay = Math.min(i * 45, 240) + 'ms';
                         }
                     }
                 });
