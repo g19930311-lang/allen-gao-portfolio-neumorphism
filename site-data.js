@@ -1,6 +1,6 @@
 // 由个人超级展示窗口管理后台导出 · 上传到 GitHub 仓库根目录即可全站生效
 window.SITE_DATA = {
-  "version": 7,
+  "version": 8,
   "hero": {
     "line1": "让品牌被看见",
     "phrases": [
@@ -177,7 +177,7 @@ window.SITE_DATA = {
       ],
       "metrics": "1 套 品牌VI升级;3 个 传播平台",
       "link": "",
-      "image": ""
+      "image": "assets/works/w1.svg"
     },
     {
       "id": "w2",
@@ -204,7 +204,7 @@ window.SITE_DATA = {
       ],
       "metrics": "30W+ 月视频传播;20W+ 月直播GMV;2W+ 私域沉淀",
       "link": "",
-      "image": ""
+      "image": "assets/works/w2.svg"
     },
     {
       "id": "w3",
@@ -228,7 +228,7 @@ window.SITE_DATA = {
       ],
       "metrics": "20W+ 月直播GMV",
       "link": "",
-      "image": ""
+      "image": "assets/works/w3.svg"
     },
     {
       "id": "w4",
@@ -254,7 +254,7 @@ window.SITE_DATA = {
       ],
       "metrics": "0→1 私域体系;2 个 内容平台",
       "link": "",
-      "image": ""
+      "image": "assets/works/w4.svg"
     },
     {
       "id": "w5",
@@ -280,7 +280,7 @@ window.SITE_DATA = {
       ],
       "metrics": "3 条 IP故事线;1 套 私域体系",
       "link": "",
-      "image": ""
+      "image": "assets/works/w5.svg"
     },
     {
       "id": "w6",
@@ -305,7 +305,7 @@ window.SITE_DATA = {
       ],
       "metrics": "55W+ 粉丝;15 个 矩阵号",
       "link": "",
-      "image": ""
+      "image": "assets/works/w6.svg"
     }
   ],
   "notes": [
