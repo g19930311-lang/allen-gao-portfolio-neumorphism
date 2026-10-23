@@ -1,6 +1,6 @@
 // 由个人超级展示窗口管理后台导出 · 上传到 GitHub 仓库根目录即可全站生效
 window.SITE_DATA = {
-  "version": 8,
+  "version": 9,
   "hero": {
     "line1": "让品牌被看见",
     "phrases": [
@@ -311,6 +311,8 @@ window.SITE_DATA = {
   "notes": [
     {
       "id": "n1",
+
+      "cover": "assets/notes/n1.svg",
       "date": "2026.10",
       "tag": "私域复盘",
       "title": "我把两万人加进企微，才明白私域的钱花在第二次触达",
@@ -320,6 +322,8 @@ window.SITE_DATA = {
     },
     {
       "id": "n2",
+
+      "cover": "assets/notes/n2.svg",
       "date": "2026.10",
       "tag": "方法清单",
       "title": "私域回访路径的五步清单，照着填就行",
@@ -329,6 +333,8 @@ window.SITE_DATA = {
     },
     {
       "id": "n3",
+
+      "cover": "assets/notes/n3.svg",
       "date": "2026.10",
       "tag": "观点",
       "title": "加了 2 万好友，不等于有 2 万用户",
@@ -338,6 +344,8 @@ window.SITE_DATA = {
     },
     {
       "id": "n4",
+
+      "cover": "assets/notes/n4.svg",
       "date": "2026.11",
       "tag": "短视频",
       "title": "一条短视频能不能爆，选题时就定了八成分数",
@@ -347,6 +355,8 @@ window.SITE_DATA = {
     },
     {
       "id": "n5",
+
+      "cover": "assets/notes/n5.svg",
       "date": "2026.11",
       "tag": "直播复盘",
       "title": "直播复盘不是看 GMV：我们只盯这五张表",
@@ -356,6 +366,8 @@ window.SITE_DATA = {
     },
     {
       "id": "n6",
+
+      "cover": "assets/notes/n6.svg",
       "date": "2026.11",
       "tag": "品牌方法",
       "title": "品牌 VI 不是做一套 logo 就完了：从定调到落地的六步",

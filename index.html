@@ -1634,6 +1634,27 @@ body.dark {
 }
 /* 深色区（原为同色浮雕）保持同色，仅让标签与数字用渐变 */
 .dark-band .sec-label { background: var(--grad-brand); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+
+        /* ===== 笔记头图（与作品封面同系列） ===== */
+        .note-cover {
+            width: 100%; aspect-ratio: 16/9; border-radius: 14px;
+            overflow: hidden; margin-bottom: 1.1rem; background: var(--bg-soft);
+        }
+        .note-cover img {
+            width: 100%; height: 100%; object-fit: cover; display: block;
+            transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .note-card:hover .note-cover img { transform: scale(1.05); }
+        .article-cover {
+            width: 100%; aspect-ratio: 16/9; border-radius: var(--r-lg);
+            overflow: hidden; margin-bottom: 2.2rem; background: var(--bg-soft);
+            box-shadow: var(--shadow-sm);
+        }
+        .article-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        @media (max-width: 768px) {
+            .article-cover { border-radius: var(--r-md); margin-bottom: 1.5rem; }
+        }
+
     </style>
 </head>
 <body>
@@ -2699,7 +2720,7 @@ body.dark {
 
         /* ================= 默认数据 v4 ================= */
         const DEFAULT_DATA = {
-            "version": 8,
+            "version": 9,
             "hero": {
                 "line1": "让品牌被看见",
                 "phrases": [
@@ -3010,6 +3031,8 @@ body.dark {
             "notes": [
                 {
                     "id": "n1",
+
+                    "cover": "assets/notes/n1.svg",
                     "date": "2026.10",
                     "tag": "私域复盘",
                     "title": "我把两万人加进企微，才明白私域的钱花在第二次触达",
@@ -3019,6 +3042,8 @@ body.dark {
                 },
                 {
                     "id": "n2",
+
+                    "cover": "assets/notes/n2.svg",
                     "date": "2026.10",
                     "tag": "方法清单",
                     "title": "私域回访路径的五步清单，照着填就行",
@@ -3028,6 +3053,8 @@ body.dark {
                 },
                 {
                     "id": "n3",
+
+                    "cover": "assets/notes/n3.svg",
                     "date": "2026.10",
                     "tag": "观点",
                     "title": "加了 2 万好友，不等于有 2 万用户",
@@ -3037,6 +3064,8 @@ body.dark {
                 },
                 {
                     "id": "n4",
+
+                    "cover": "assets/notes/n4.svg",
                     "date": "2026.11",
                     "tag": "短视频",
                     "title": "一条短视频能不能爆，选题时就定了八成分数",
@@ -3046,6 +3075,8 @@ body.dark {
                 },
                 {
                     "id": "n5",
+
+                    "cover": "assets/notes/n5.svg",
                     "date": "2026.11",
                     "tag": "直播复盘",
                     "title": "直播复盘不是看 GMV：我们只盯这五张表",
@@ -3055,6 +3086,8 @@ body.dark {
                 },
                 {
                     "id": "n6",
+
+                    "cover": "assets/notes/n6.svg",
                     "date": "2026.11",
                     "tag": "品牌方法",
                     "title": "品牌 VI 不是做一套 logo 就完了：从定调到落地的六步",
@@ -3329,6 +3362,7 @@ body.dark {
                 d.style.cssText = 'background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.1rem 1.3rem';
                 d.setAttribute('data-level', s.level);
                 d.innerHTML =
+                    (n.cover ? '<div class="note-cover"><img loading="lazy" src="' + n.cover + '" alt="' + escapeHtml(n.title) + '"></div>' : '') +
                     '<div style="display:flex;justify-content:space-between;align-items:baseline;gap:1rem">' +
                         '<strong style="font-size:0.98rem">' + escapeHtml(s.label) + '</strong>' +
                         '<span style="font-size:0.78rem;color:var(--brand);font-weight:700">' + (+s.level) + '%</span>' +
@@ -5284,6 +5318,7 @@ body.dark {
             document.getElementById('articleDate').textContent = n.date || '';
             document.getElementById('articleRead').textContent = '约 ' + estimateRead(n.content) + ' 分钟';
             content.innerHTML =
+                (n.cover ? '<div class="article-cover"><img src="' + n.cover + '" alt="' + escapeHtml(n.title) + '"></div>' : '') +
                 '<h1 class="article-h1">' + escapeHtml(n.title) + '</h1>' +
                 (n.excerpt ? '<p class="article-lead">' + escapeHtml(n.excerpt) + '</p>' : '') +
                 parseArticle(n.content);
