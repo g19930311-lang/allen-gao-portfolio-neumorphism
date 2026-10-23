@@ -1692,6 +1692,65 @@ body.dark {
         }
         .typed-line { border-right-color: var(--brand-3, var(--brand-2)) !important; }
 
+
+        /* ===== 板块独特性：方法论（水 / 生态主题） ===== */
+        #method {
+            background-image: repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.028) 0 1px, transparent 1px 44px);
+        }
+        .method-card { position: relative; overflow: hidden; padding-top: 1.9rem !important; }
+        .method-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, #22d3ee, #4f46e5);
+        }
+        .method-card.m-2::before { background: linear-gradient(90deg, #4f46e5, #8b5cf6); }
+        .method-card.m-3::before { background: linear-gradient(90deg, #8b5cf6, #ec4899); }
+        .method-card.m-4::before { background: linear-gradient(90deg, #ec4899, #f97316); }
+        .m-art-box { color: #7dd3fc; margin-bottom: 0.75rem; }
+        .m-art { width: 92px; height: 46px; display: block; }
+        .method-card .step { font-size: 0.7rem; font-weight: 800; letter-spacing: 2.2px; color: #7dd3fc; margin-bottom: 0.5rem; }
+
+        /* ===== 板块独特性：服务（几何 / 结构主题） ===== */
+        .service-card { padding: 0 !important; overflow: hidden; position: relative; }
+        .svc-media {
+            width: 100%; aspect-ratio: 5/3; overflow: hidden;
+            background: var(--bg-soft); position: relative;
+        }
+        .svc-media img {
+            width: 100%; height: 100%; object-fit: cover; display: block;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .service-card:hover .svc-media img { transform: scale(1.06); }
+        .svc-body { padding: 1.45rem 1.6rem 1.7rem; }
+        .svc-no {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 0.72rem; font-weight: 700; letter-spacing: 2px;
+            color: var(--brand-2); margin-bottom: 0.4rem;
+        }
+        .svc-body h4 { margin-bottom: 0.45rem; }
+
+        /* ===== 板块独特性：笔记（思考 / 记录主题） ===== */
+        #notes .wrap { position: relative; }
+        #notes .wrap::before {
+            content: ''; position: absolute; left: -1.5rem; top: 6%; bottom: 6%; width: 2px;
+            background: linear-gradient(180deg, transparent, rgba(168, 85, 247, 0.55), rgba(34, 211, 238, 0.4), transparent);
+            border-radius: 2px;
+        }
+        .note-card { position: relative; }
+        .note-card::before {
+            content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+            background: linear-gradient(180deg, #a855f7, #22d3ee);
+            opacity: 0; transition: opacity 0.3s ease; border-radius: 3px 0 0 3px;
+        }
+        .note-card:hover::before { opacity: 1; }
+
+        @media (max-width: 900px) {
+            #notes .wrap::before { display: none; }
+        }
+        @media (max-width: 768px) {
+            .svc-body { padding: 1.25rem 1.3rem 1.4rem; }
+            .m-art { width: 78px; height: 40px; }
+        }
+
     </style>
 </head>
 <body>
@@ -2757,7 +2816,7 @@ body.dark {
 
         /* ================= 默认数据 v4 ================= */
         const DEFAULT_DATA = {
-            "version": 9,
+            "version": 10,
             "hero": {
                 "line1": "让品牌被看见",
                 "phrases": [
@@ -3224,6 +3283,8 @@ body.dark {
             "services": [
                 {
                     "id": "s1",
+
+                    "cover": "assets/services/s1.svg",
                     "emoji": "🎨",
                     "title": "品牌策划",
                     "desc": "品牌定位、VI视觉、slogan与传播策略，从0到1搭建品牌形象体系",
@@ -3235,6 +3296,8 @@ body.dark {
                 },
                 {
                     "id": "s2",
+
+                    "cover": "assets/services/s2.svg",
                     "emoji": "📱",
                     "title": "新媒体代运营",
                     "desc": "公众号/抖音/视频号矩阵搭建与内容运营，双微一抖全域覆盖",
@@ -3246,6 +3309,8 @@ body.dark {
                 },
                 {
                     "id": "s3",
+
+                    "cover": "assets/services/s3.svg",
                     "emoji": "🎬",
                     "title": "短视频&直播陪跑",
                     "desc": "内容策划、拍摄把控、直播方案与投放优化，陪跑到数据结果",
@@ -3257,6 +3322,8 @@ body.dark {
                 },
                 {
                     "id": "s4",
+
+                    "cover": "assets/services/s4.svg",
                     "emoji": "📈",
                     "title": "企业内训",
                     "desc": "新媒体团队搭建与能力培训，把9年实战方法论交给你的团队",
@@ -3413,14 +3480,20 @@ body.dark {
         }
 
         function renderMethod() {
+            const ART = [
+            '<svg viewBox="0 0 120 60" class="m-art" aria-hidden="true"><path d="M6 42 Q26 24 46 42 T86 42 T126 42" fill="none" stroke="currentColor" stroke-width="3"/><path d="M6 26 Q26 8 46 26 T86 26 T126 26" fill="none" stroke="currentColor" stroke-width="2" opacity=".45"/><circle cx="34" cy="48" r="3.5" fill="currentColor"/></svg>',
+            '<svg viewBox="0 0 120 60" class="m-art" aria-hidden="true"><path d="M20 12 V46 H100 V12" fill="none" stroke="currentColor" stroke-width="3"/><path d="M20 30 Q42 24 60 30 T100 30" fill="none" stroke="currentColor" stroke-width="2.5" opacity=".6"/><path d="M20 22 H100" stroke="currentColor" stroke-width="2" opacity=".35"/></svg>',
+            '<svg viewBox="0 0 120 60" class="m-art" aria-hidden="true"><ellipse cx="50" cy="30" rx="30" ry="17" fill="none" stroke="currentColor" stroke-width="3"/><path d="M80 30 L104 15 V45 Z" fill="currentColor" opacity=".85"/><circle cx="40" cy="27" r="3" fill="currentColor"/><path d="M18 10 Q12 30 18 50" fill="none" stroke="currentColor" stroke-width="2" opacity=".45"/></svg>',
+            '<svg viewBox="0 0 120 60" class="m-art" aria-hidden="true"><path d="M60 52 V22" stroke="currentColor" stroke-width="3"/><path d="M60 32 Q34 28 30 8 Q56 10 60 32" fill="currentColor" opacity=".8"/><path d="M60 40 Q86 36 90 16 Q64 18 60 40" fill="currentColor" opacity=".45"/><path d="M26 52 H94" stroke="currentColor" stroke-width="2.5" opacity=".4"/></svg>'
+            ];
             const wrap = document.getElementById('methodGrid');
             wrap.innerHTML = '';
-            (DATA.method || []).forEach(function (m) {
+            (DATA.method || []).forEach(function (m, mi) {
                 const d = document.createElement('div');
-                d.className = 'method-card fade-in';
+                d.className = 'method-card fade-in m-' + (mi + 1);
                 d.innerHTML =
+                    '<div class="m-art-box">' + (ART[mi % ART.length] || '') + '</div>' +
                     '<div class="step">' + escapeHtml(m.step) + '</div>' +
-                    '<div class="ic">' + escapeHtml(m.emoji) + '</div>' +
                     '<h4>' + escapeHtml(m.title) + '</h4>' +
                     '<p>' + escapeHtml(m.desc) + '</p>';
                 wrap.appendChild(d);
@@ -3484,17 +3557,21 @@ body.dark {
         function renderServices() {
             const wrap = document.getElementById('serviceGrid');
             wrap.innerHTML = '';
-            (DATA.services || []).forEach(function (s) {
+            (DATA.services || []).forEach(function (s, si) {
                 const d = document.createElement('div');
                 d.className = 'service-card fade-in';
                 const tags = (s.tags || []).map(function (t) {
                     return '<span class="tag">' + escapeHtml(t) + '</span>';
                 }).join('');
+                const cover = s.cover || ('assets/services/s' + (si + 1) + '.svg');
                 d.innerHTML =
-                    '<div class="ic">' + escapeHtml(s.emoji) + '</div>' +
-                    '<h4>' + escapeHtml(s.title) + '</h4>' +
-                    '<p>' + escapeHtml(s.desc) + '</p>' +
-                    '<div>' + tags + '</div>';
+                    '<div class="svc-media"><img loading="lazy" src="' + cover + '" alt="' + escapeHtml(s.title) + '" onerror="this.parentNode.style.display=&#39;none&#39;"></div>' +
+                    '<div class="svc-body">' +
+                        '<div class="svc-no">0' + (si + 1) + '</div>' +
+                        '<h4>' + escapeHtml(s.title) + '</h4>' +
+                        '<p>' + escapeHtml(s.desc) + '</p>' +
+                        '<div>' + tags + '</div>' +
+                    '</div>';
                 wrap.appendChild(d);
             });
         }

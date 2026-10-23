@@ -1,6 +1,6 @@
 // 由个人超级展示窗口管理后台导出 · 上传到 GitHub 仓库根目录即可全站生效
 window.SITE_DATA = {
-  "version": 9,
+  "version": 10,
   "hero": {
     "line1": "让品牌被看见",
     "phrases": [
@@ -467,6 +467,8 @@ window.SITE_DATA = {
   "services": [
     {
       "id": "s1",
+
+      "cover": "assets/services/s1.svg",
       "emoji": "🎨",
       "title": "品牌策划",
       "desc": "品牌定位、VI视觉、slogan与传播策略，从0到1搭建品牌形象体系",
@@ -478,6 +480,8 @@ window.SITE_DATA = {
     },
     {
       "id": "s2",
+
+      "cover": "assets/services/s2.svg",
       "emoji": "📱",
       "title": "新媒体代运营",
       "desc": "公众号/抖音/视频号矩阵搭建与内容运营，双微一抖全域覆盖",
@@ -489,6 +493,8 @@ window.SITE_DATA = {
     },
     {
       "id": "s3",
+
+      "cover": "assets/services/s3.svg",
       "emoji": "🎬",
       "title": "短视频&直播陪跑",
       "desc": "内容策划、拍摄把控、直播方案与投放优化，陪跑到数据结果",
@@ -500,6 +506,8 @@ window.SITE_DATA = {
     },
     {
       "id": "s4",
+
+      "cover": "assets/services/s4.svg",
       "emoji": "📈",
       "title": "企业内训",
       "desc": "新媒体团队搭建与能力培训，把9年实战方法论交给你的团队",
