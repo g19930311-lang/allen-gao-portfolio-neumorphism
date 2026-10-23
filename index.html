@@ -7,7 +7,7 @@
     <meta name="description" content="高洁(Allen Gao)的个人超级展示窗口 - 9年新媒体运营、品牌策划、短视频与私域运营经验">
     <meta name="keywords" content="高洁,Allen Gao,新媒体运营,品牌策划,短视频运营,直播电商,私域运营,杭州">
     <meta name="author" content="高洁 Allen Gao">
-    <meta name="theme-color" content="#e9edf4">
+    <meta name="theme-color" content="#6d28d9">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <meta property="og:type" content="website">
     <meta property="og:title" content="高洁 Allen Gao | 新媒体运营与品牌策划">
@@ -1546,6 +1546,94 @@ body.dark .work-card::after, body.dark .service-card::after, body.dark .life-car
     .ip-pet.excited .pet-body, .ip-pet.spin .pet-body { animation: none !important; }
     .pet-particle { display: none; }
 }
+/* ==========================================================================
+   新拟态版 · 配色同步（色相统一到参考图的紫蓝体系，保留柔和浮雕结构）
+   ========================================================================== */
+:root {
+    /* 底色：带紫调的浅灰（新拟态要求背景与元素同色） */
+    --bg: #ebe9f6;
+    --bg-soft: #ebe9f6;
+    --bg-tint: #ebe9f6;
+    --card: #ebe9f6;
+    --ink: #241c4a;
+    --ink-2: #4f4a75;
+    --ink-3: #8581a8;
+    --brand: #6d28d9;
+    --brand-2: #4f46e5;
+    --brand-3: #06b6d4;
+    --brand-soft: rgba(109, 40, 217, 0.09);
+    --accent: #ec4899;
+    --accent-soft: rgba(236, 72, 153, 0.12);
+    --border: rgba(255, 255, 255, 0.55);
+    --border-2: rgba(150, 140, 190, 0.32);
+    --dark: #ebe9f6;
+    --dark-2: #ebe9f6;
+    /* 双向阴影改为紫调 */
+    --sh-out: 6px 6px 14px rgba(120, 110, 170, 0.42), -6px -6px 14px rgba(255, 255, 255, 0.95);
+    --sh-out-sm: 4px 4px 9px rgba(120, 110, 170, 0.36), -4px -4px 9px rgba(255, 255, 255, 0.9);
+    --sh-out-lg: 9px 9px 20px rgba(120, 110, 170, 0.46), -9px -9px 20px rgba(255, 255, 255, 0.96);
+    --sh-in: inset 5px 5px 11px rgba(120, 110, 170, 0.42), inset -5px -5px 11px rgba(255, 255, 255, 0.95);
+    --shadow: var(--sh-out);
+    --shadow-sm: var(--sh-out-sm);
+    --shadow-xs: var(--sh-out-sm);
+    /* 渐变（仅用于点缀：数字、标签、主按钮） */
+    --grad-brand: linear-gradient(118deg, #6d28d9 0%, #4f46e5 45%, #06b6d4 100%);
+    --grad-irid: linear-gradient(100deg, #e879f9 0%, #a855f7 26%, #6366f1 60%, #22d3ee 100%);
+}
+body.dark {
+    --bg: #1c1733;
+    --bg-soft: #1c1733;
+    --bg-tint: #1c1733;
+    --card: #1c1733;
+    --ink: #eae6ff;
+    --ink-2: #b0a9d6;
+    --ink-3: #7d77a3;
+    --brand: #a78bfa;
+    --brand-2: #818cf8;
+    --brand-3: #22d3ee;
+    --brand-soft: rgba(167, 139, 250, 0.14);
+    --border: rgba(255, 255, 255, 0.06);
+    --border-2: rgba(255, 255, 255, 0.1);
+    --dark: #1c1733;
+    --dark-2: #1c1733;
+    --sh-out: 6px 6px 14px rgba(0, 0, 0, 0.5), -6px -6px 14px rgba(255, 255, 255, 0.045);
+    --sh-out-sm: 4px 4px 9px rgba(0, 0, 0, 0.44), -4px -4px 9px rgba(255, 255, 255, 0.04);
+    --sh-out-lg: 9px 9px 20px rgba(0, 0, 0, 0.55), -9px -9px 20px rgba(255, 255, 255, 0.05);
+    --sh-in: inset 5px 5px 11px rgba(0, 0, 0, 0.5), inset -5px -5px 11px rgba(255, 255, 255, 0.05);
+}
+
+/* 渐变点缀：数字 / 标签 / 主按钮 / 进度条 */
+.stat-tile .n, .art-data-item .n, .detail-metric .n,
+#highlightGrid > div > div:first-child {
+    background: var(--grad-irid);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.sec-label { background: var(--grad-brand); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.hero-title .grad, .typed-line, #typedText {
+    background: var(--grad-irid);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent; color: transparent;
+}
+.typed-line { border-right-color: #06b6d4; }
+.btn-primary {
+    background: var(--grad-brand) !important;
+    box-shadow: 5px 5px 12px rgba(120, 110, 170, 0.45), -5px -5px 12px rgba(255, 255, 255, 0.85) !important;
+    color: #fff;
+}
+.btn-primary:hover { filter: brightness(1.08); }
+#progress-bar { background: var(--grad-irid); }
+#back-top { background: var(--grad-brand); color: #fff; }
+.filter-btn.active { background: var(--grad-brand); color: #fff; }
+.work-cat, .portfolio-category, .social-type, .article-tag, .life-date, .note-cta, .timeline-date { color: var(--brand-2); }
+.zoom-badge { background: var(--grad-brand); color: #fff; }
+.brands-strip .b:hover {
+    background: var(--grad-brand);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+/* 深色区（原为同色浮雕）保持同色，仅让标签与数字用渐变 */
+.dark-band .sec-label { background: var(--grad-brand); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
     </style>
 </head>
 <body>
