@@ -1680,6 +1680,18 @@ body.dark {
         /* 图片加载失败兜底：隐藏破图图标 */
         .work-media img, .note-cover img, .life-cover img, .article-cover img { background: var(--bg-soft); }
 
+
+        /* ===== 内容可见性保障 ===== */
+        /* 打字机文字改用纯色（动态文本 + 渐变裁剪在部分内核会导致文字不可见） */
+        #typedText, .typed-line {
+            background: none !important;
+            -webkit-background-clip: border-box !important;
+            background-clip: border-box !important;
+            -webkit-text-fill-color: currentColor !important;
+            color: var(--brand-2) !important;
+        }
+        .typed-line { border-right-color: var(--brand-3, var(--brand-2)) !important; }
+
     </style>
 </head>
 <body>
@@ -3332,7 +3344,7 @@ body.dark {
             document.getElementById('heroSubtitle').innerHTML = DATA.hero.subtitle;
             const wrap = document.getElementById('heroStats');
             wrap.innerHTML = '';
-            DATA.hero.stats.forEach(function (s) {
+            (DATA.hero.stats || []).forEach(function (s) {
                 const d = document.createElement('div');
                 d.className = 'stat-tile';
                 d.innerHTML = '<div class="n" data-count="' + (+s.num || 0) + '" data-suffix="' + escapeHtml(s.suffix || '') + '">0</div>' +
@@ -3357,7 +3369,7 @@ body.dark {
             document.getElementById('aboutHeading').innerHTML = DATA.about.heading;
             const paras = document.getElementById('aboutParas');
             paras.innerHTML = '';
-            DATA.about.paragraphs.forEach(function (p) {
+            (DATA.about.paragraphs || []).forEach(function (p) {
                 const el = document.createElement('p');
                 el.textContent = p;
                 el.style.cssText = 'color:var(--ink-2);margin-bottom:1.1rem;font-size:1rem;line-height:1.9';
@@ -3365,7 +3377,7 @@ body.dark {
             });
             const tags = document.getElementById('aboutTags');
             tags.innerHTML = '';
-            DATA.about.tags.forEach(function (t) {
+            (DATA.about.tags || []).forEach(function (t) {
                 const s = document.createElement('span');
                 s.className = 'pill-btn';
                 s.style.cssText = 'padding:0.35rem 0.9rem;font-size:0.75rem;margin:0.2rem';
@@ -3381,7 +3393,7 @@ body.dark {
             }
             const sb = document.getElementById('skillCards');
             sb.innerHTML = '';
-            DATA.skills.forEach(function (s) {
+            (DATA.skills || []).forEach(function (s) {
                 const d = document.createElement('div');
                 d.className = 'skill-bar-item';
                 d.style.cssText = 'background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.1rem 1.3rem';
@@ -3445,7 +3457,7 @@ body.dark {
                 grid.innerHTML = '<div class="empty-note">' + T('ws_empty') + '</div>';
                 return;
             }
-            DATA.works.forEach(function (w) {
+            (DATA.works || []).forEach(function (w) {
                 const card = document.createElement('div');
                 card.className = 'work-card fade-in';
                 card.setAttribute('data-category', w.category);
@@ -3494,7 +3506,7 @@ body.dark {
                 grid.innerHTML = '<div class="empty-note">' + T('life_empty') + '</div>';
                 return;
             }
-            DATA.life.forEach(function (item) {
+            (DATA.life || []).forEach(function (item) {
                 const card = document.createElement('div');
                 card.className = 'life-card fade-in';
                 let coverHtml;
@@ -3647,21 +3659,22 @@ body.dark {
         }
 
         function applyAll() {
-            renderHero();
-            renderBrands();
-            renderAbout();
-            renderMethod();
-            renderTimeline();
-            renderWorks();
-            renderHighlights();
-            renderNotes();
-            renderServices();
-            renderLife();
-            renderTesti();
-            renderSocial();
-            renderContact();
-            /* 关键：每次重建后必须重新观察入场动画，否则 .fade-in 卡片会一直透明 */
-            observeFades();
+            /* 每个区块独立渲染并容错：任何一处异常都不会导致其余内容空白 */
+            const steps = [
+                ['hero', renderHero], ['brands', renderBrands], ['about', renderAbout],
+                ['method', renderMethod], ['timeline', renderTimeline], ['works', renderWorks],
+                ['highlights', renderHighlights], ['notes', renderNotes], ['services', renderServices],
+                ['life', renderLife], ['testi', renderTesti], ['social', renderSocial],
+                ['contact', renderContact]
+            ];
+            for (let si = 0; si < steps.length; si++) {
+                try {
+                    steps[si][1]();
+                } catch (err) {
+                    if (window.console && console.error) console.error('[render:' + steps[si][0] + ']', err);
+                }
+            }
+            try { observeFades(); } catch (err) { if (window.console && console.error) console.error('[observeFades]', err); }
         }
 
         /* 数字滚动 & 能力条 */
@@ -4210,7 +4223,7 @@ body.dark {
         function buildSkillEditor() {
             const wrap = document.getElementById('skillEditor');
             wrap.innerHTML = '';
-            DATA.skills.forEach(function (s, i) {
+            (DATA.skills || []).forEach(function (s, i) {
                 const row = document.createElement('div');
                 row.className = 'a-row';
                 row.style.marginBottom = '0.7rem';
@@ -4254,7 +4267,7 @@ body.dark {
         function renderWorkList() {
             const list = document.getElementById('workList');
             list.innerHTML = '';
-            DATA.works.forEach(function (w) {
+            (DATA.works || []).forEach(function (w) {
                 const item = document.createElement('div');
                 item.className = 'admin-list-item';
                 const img = AssetStore.resolve(w.image);
@@ -4400,7 +4413,7 @@ body.dark {
         function renderLifeList() {
             const list = document.getElementById('lifeList');
             list.innerHTML = '';
-            DATA.life.forEach(function (item) {
+            (DATA.life || []).forEach(function (item) {
                 const el = document.createElement('div');
                 el.className = 'admin-list-item';
                 let thumb = '<span>' + escapeHtml(item.emoji || '📷') + '</span>';
@@ -5771,6 +5784,38 @@ body.dark {
                     if (el) secIO.observe(el);
                 });
             }
+        })();
+
+
+        /* ============ 内容可见性兜底 ============
+           入场动画（.fade-in → .visible）若因任何原因未触发，
+           这里用不依赖 IntersectionObserver 的方式把内容显示出来，确保页面永不空白。 */
+        (function contentFallback() {
+            let ticking = null;
+            function revealVisible() {
+                const vh = window.innerHeight || document.documentElement.clientHeight;
+                document.querySelectorAll('.fade-in:not(.visible)').forEach(function (el) {
+                    const r = el.getBoundingClientRect();
+                    if (r.top < vh - 20 && r.bottom > -20) el.classList.add('visible');
+                });
+            }
+            function schedule() {
+                if (ticking) return;
+                ticking = setTimeout(function () { ticking = null; revealVisible(); }, 160);
+            }
+            window.addEventListener('scroll', schedule, { passive: true });
+            window.addEventListener('resize', schedule, { passive: true });
+            window.addEventListener('load', function () { setTimeout(revealVisible, 600); });
+            document.addEventListener('visibilitychange', revealVisible);
+            /* 双重保险：1.5s / 4s 各扫一次，把视口内的内容显示出来 */
+            setTimeout(revealVisible, 1500);
+            setTimeout(revealVisible, 4000);
+            /* 终极兜底：8 秒后无条件全部显示（宁可没有动画，也不能让内容消失） */
+            setTimeout(function () {
+                document.querySelectorAll('.fade-in:not(.visible)').forEach(function (el) {
+                    el.classList.add('visible');
+                });
+            }, 8000);
         })();
 
         /* ================= 启动 ================= */
