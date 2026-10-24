@@ -1814,6 +1814,118 @@ body.dark {
             .method-card.m-1 .m-bubbles i { animation: none !important; }
         }
 
+
+        /* ===== 方法论四步动态意象（各自独立） ===== */
+        .method-card .m-art * { transform-box: fill-box; }
+
+        /* ② 有池可蓄：水面波动 + 蓄水刻度逐级亮起 + 水位上升 */
+        .method-card.m-2 .pool-water { animation: poolWave 3.4s ease-in-out infinite; }
+        @keyframes poolWave {
+            0%, 100% { transform: translateY(0) scaleY(1); }
+            50% { transform: translateY(-2.5px) scaleY(1.12); }
+        }
+        .method-card.m-2 .pool-gauge { animation: gaugeUp 3.6s ease-in-out infinite; }
+        .method-card.m-2 .pool-gauge.g1 { animation-delay: 0s; }
+        .method-card.m-2 .pool-gauge.g2 { animation-delay: 0.6s; }
+        .method-card.m-2 .pool-gauge.g3 { animation-delay: 1.2s; }
+        @keyframes gaugeUp {
+            0%, 100% { opacity: 0.2; }
+            42% { opacity: 0.95; }
+            72% { opacity: 0.2; }
+        }
+        .method-card.m-2::after {
+            content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 44%;
+            background: linear-gradient(180deg, transparent, rgba(79, 70, 229, 0.14));
+            animation: waterRise 4.6s ease-in-out infinite;
+            pointer-events: none;
+        }
+        @keyframes waterRise {
+            0%, 100% { transform: translateY(12px); opacity: 0.45; }
+            50% { transform: translateY(0); opacity: 0.85; }
+        }
+
+        /* ③ 有鱼可养：游动 + 摆尾 + 吐气泡 */
+        .method-card.m-3 .fish { animation: fishSwim 5s ease-in-out infinite; }
+        @keyframes fishSwim {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(7px, -2.5px) rotate(-2deg); }
+            50% { transform: translate(2px, 1.5px) rotate(0deg); }
+            75% { transform: translate(-6px, -1px) rotate(2deg); }
+        }
+        .method-card.m-3 .fish-tail {
+            transform-origin: 0% 50%;
+            animation: tailWag 1.1s ease-in-out infinite;
+        }
+        @keyframes tailWag {
+            0%, 100% { transform: rotate(-3deg); }
+            50% { transform: rotate(9deg); }
+        }
+        .method-card.m-3 .fish-bubble { animation: bubbleRise 3.6s ease-in infinite; }
+        .method-card.m-3 .fish-bubble.b2 { animation-delay: 1.6s; }
+        @keyframes bubbleRise {
+            0% { transform: translateY(0) scale(0.6); opacity: 0; }
+            22% { opacity: 0.85; }
+            100% { transform: translateY(-26px) scale(1.1); opacity: 0; }
+        }
+        .method-card.m-3 .fish-wave { animation: waveSway 4s ease-in-out infinite; }
+        @keyframes waveSway {
+            0%, 100% { transform: translateX(0); opacity: 0.35; }
+            50% { transform: translateX(3px); opacity: 0.62; }
+        }
+
+        /* ④ 有草可种：破土生长 + 叶芽摇曳 + 种子发光 */
+        .method-card.m-4 .sprout {
+            transform-origin: 50% 100%;
+            animation: sproutGrow 5s ease-in-out infinite;
+        }
+        @keyframes sproutGrow {
+            0% { transform: scaleY(0.5); opacity: 0.45; }
+            45% { transform: scaleY(1); opacity: 1; }
+            70% { transform: scaleY(1); opacity: 1; }
+            100% { transform: scaleY(1); opacity: 1; }
+        }
+        .method-card.m-4 .leaf-1 { transform-origin: 100% 88%; animation: leafSway1 3.4s ease-in-out infinite; }
+        .method-card.m-4 .leaf-2 { transform-origin: 0% 88%; animation: leafSway2 4.2s ease-in-out infinite; }
+        @keyframes leafSway1 {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(-4.5deg); }
+        }
+        @keyframes leafSway2 {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(4.5deg); }
+        }
+        .method-card.m-4 .seed-glow { animation: seedPulse 2.6s ease-in-out infinite; }
+        @keyframes seedPulse {
+            0%, 100% { opacity: 0.25; transform: scale(1); }
+            50% { opacity: 0.9; transform: scale(1.6); }
+        }
+
+        /* ②③④ 顶部色条流光（各配主题色） */
+        .method-card.m-2::before {
+            background: linear-gradient(90deg, #4f46e5, #8b5cf6, #4f46e5);
+            background-size: 220% 100%;
+            animation: flowBar 4.2s linear infinite;
+        }
+        .method-card.m-3::before {
+            background: linear-gradient(90deg, #8b5cf6, #ec4899, #8b5cf6);
+            background-size: 220% 100%;
+            animation: flowBar 4.6s linear infinite;
+        }
+        .method-card.m-4::before {
+            background: linear-gradient(90deg, #ec4899, #f97316, #ec4899);
+            background-size: 220% 100%;
+            animation: flowBar 5s linear infinite;
+        }
+
+        /* 减弱动效偏好：全部降级 */
+        @media (prefers-reduced-motion: reduce) {
+            .method-card .m-art *,
+            .method-card.m-2::after,
+            .method-card.m-2::before,
+            .method-card.m-3::before,
+            .method-card.m-4::before { animation: none !important; }
+        }
+
     </style>
 </head>
 <body>
@@ -3545,9 +3657,9 @@ body.dark {
         function renderMethod() {
             const ART = [
             '<svg viewBox="0 0 120 60" class="m-art" aria-hidden="true"><path d="M6 42 Q26 24 46 42 T86 42 T126 42" fill="none" stroke="currentColor" stroke-width="3"/><path d="M6 26 Q26 8 46 26 T86 26 T126 26" fill="none" stroke="currentColor" stroke-width="2" opacity=".45"/><circle cx="34" cy="48" r="3.5" fill="currentColor"/></svg>',
-            '<svg viewBox="0 0 120 60" class="m-art" aria-hidden="true"><path d="M20 12 V46 H100 V12" fill="none" stroke="currentColor" stroke-width="3"/><path d="M20 30 Q42 24 60 30 T100 30" fill="none" stroke="currentColor" stroke-width="2.5" opacity=".6"/><path d="M20 22 H100" stroke="currentColor" stroke-width="2" opacity=".35"/></svg>',
-            '<svg viewBox="0 0 120 60" class="m-art" aria-hidden="true"><ellipse cx="50" cy="30" rx="30" ry="17" fill="none" stroke="currentColor" stroke-width="3"/><path d="M80 30 L104 15 V45 Z" fill="currentColor" opacity=".85"/><circle cx="40" cy="27" r="3" fill="currentColor"/><path d="M18 10 Q12 30 18 50" fill="none" stroke="currentColor" stroke-width="2" opacity=".45"/></svg>',
-            '<svg viewBox="0 0 120 60" class="m-art" aria-hidden="true"><path d="M60 52 V22" stroke="currentColor" stroke-width="3"/><path d="M60 32 Q34 28 30 8 Q56 10 60 32" fill="currentColor" opacity=".8"/><path d="M60 40 Q86 36 90 16 Q64 18 60 40" fill="currentColor" opacity=".45"/><path d="M26 52 H94" stroke="currentColor" stroke-width="2.5" opacity=".4"/></svg>'
+            '<svg viewBox="0 0 120 60" class="m-art" aria-hidden="true"><path d="M20 12 V46 H100 V12" fill="none" stroke="currentColor" stroke-width="3"/><path class="pool-water" d="M20 30 Q34 26 48 30 T76 30 T104 30" fill="none" stroke="currentColor" stroke-width="2.6" opacity=".8"/><path class="pool-gauge g3" d="M28 24 H92" stroke="currentColor" stroke-width="2" opacity=".22"/><path class="pool-gauge g2" d="M28 32 H92" stroke="currentColor" stroke-width="2" opacity=".22"/><path class="pool-gauge g1" d="M28 40 H92" stroke="currentColor" stroke-width="2" opacity=".22"/></svg>',
+            '<svg viewBox="0 0 120 60" class="m-art" aria-hidden="true"><path class="fish-wave" d="M14 10 Q7 30 14 50" fill="none" stroke="currentColor" stroke-width="2" opacity=".4"/><g class="fish"><ellipse cx="52" cy="30" rx="28" ry="16" fill="none" stroke="currentColor" stroke-width="3"/><circle cx="42" cy="27" r="3" fill="currentColor"/><path class="fish-tail" d="M80 30 L104 14 V46 Z" fill="currentColor" opacity=".85"/></g><circle class="fish-bubble b1" cx="30" cy="20" r="2.6" fill="currentColor" opacity=".7"/><circle class="fish-bubble b2" cx="24" cy="33" r="1.8" fill="currentColor" opacity=".5"/></svg>',
+            '<svg viewBox="0 0 120 60" class="m-art" aria-hidden="true"><path d="M24 52 H96" stroke="currentColor" stroke-width="2.5" opacity=".4"/><circle class="seed-glow" cx="60" cy="52" r="4" fill="currentColor" opacity=".35"/><g class="sprout"><path class="sprout-stem" d="M60 52 V22" stroke="currentColor" stroke-width="3"/><path class="leaf leaf-1" d="M60 34 Q36 30 32 10 Q58 12 60 34" fill="currentColor" opacity=".85"/><path class="leaf leaf-2" d="M60 42 Q84 38 88 18 Q62 20 60 42" fill="currentColor" opacity=".5"/></g></svg>'
             ];
             const wrap = document.getElementById('methodGrid');
             wrap.innerHTML = '';
